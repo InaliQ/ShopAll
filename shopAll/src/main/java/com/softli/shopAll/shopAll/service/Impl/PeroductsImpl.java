@@ -1,5 +1,6 @@
 package com.softli.shopAll.shopAll.service.Impl;
 
+import com.softli.shopAll.shopAll.exceptions.ProductNotFoundException;
 import com.softli.shopAll.shopAll.models.dao.ProductsDAO;
 import com.softli.shopAll.shopAll.models.entity.Products;
 import com.softli.shopAll.shopAll.service.IProducts;
@@ -22,7 +23,8 @@ public class PeroductsImpl implements IProducts {
     @Transactional(readOnly = true)
     @Override
     public Products findById(Integer id) {
-        return productsDAO.findById(id).orElse(null);
+        return productsDAO.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Sin existencias del producto o no disponible  " + id));
     }
     public List<Products> findAll() {
         return (List<Products>) productsDAO.findAll();
